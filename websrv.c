@@ -69,15 +69,18 @@ int main(){
                 mode=0;
             }   //GETモード
             if(strncmp(buff,"POST",4)==0) mode=1;   //POSTモード
-            if(strncmp(buff,"Content-Length:",15){
+            if(strncmp(buff,"Content-Length:",15)){
                 sscanf(buff,"Content-Length:%d",&len);
             }
             if(strncmp(buff,"\r\n")==0) break;
             printf("%s\n",buff);
         }
-        if(mode==1) fprintf(istream,"HTTP/1.1 200 OK\r\nContet-Type:text/html\r\n\r\nHello\r\n");
-        if(mode==0){
+        if(mode==0) fprintf(istream,"HTTP/1.1 200 OK\r\nContet-Type:text/html\r\n\r\nHello\r\n");
+        if(mode==1){
             fgets(buff,len+1,istream);
+            while(1){
+                if(fgets(buff,1024,istream)) break;
+            }
             printf("POST_MODE:%s\n",buff);
             fprintf(istream,)
         }

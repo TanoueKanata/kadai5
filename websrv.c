@@ -62,27 +62,27 @@ int main(){
             perror("setvbuf error\n");
             exit(1);
         }
-        int len=0;
+        int len;
         while(1){
             if(fgets(buff,1024,istream)==0) break;
             if(strncmp(buff,"GET",3)==0){
                 mode=0;
             }   //GETモード
             if(strncmp(buff,"POST",4)==0) mode=1;   //POSTモード
-            if(strncmp(buff,"Content-Length:",15)){
-                sscanf(buff,"Content-Length:%d",&len);
+            if(strncmp(buff,"Content-Length:",13)==0){
+			//printf("%s\n",buff);
+			sscanf(buff,"Content-Length: %d",&len);
+			printf("len=%d\n",len);
             }
-            if(strncmp(buff,"\r\n")==0) break;
+            if(strcmp(buff,"\r\n")==0) break;
             printf("%s\n",buff);
         }
+	printf("mode:%d",mode);
         if(mode==0) fprintf(istream,"HTTP/1.1 200 OK\r\nContet-Type:text/html\r\n\r\nHello\r\n");
         if(mode==1){
             fgets(buff,len+1,istream);
-            while(1){
-                if(fgets(buff,1024,istream)) break;
-            }
             printf("POST_MODE:%s\n",buff);
-            fprintf(istream,)
+            fprintf(istream,"HTTP/1.1 200 OK\r\nContet-Type:text/html\r\n\r\nHello\r\n");
         }
         sleep(1);
         val=fclose(istream);
